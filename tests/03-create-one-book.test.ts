@@ -17,4 +17,20 @@ describe("### API ### POST '/api/books'", () => {
     expect(res.body.data).toHaveProperty("author");
     expect(res.body.data).toHaveProperty("title");
   });
+
+  it("Should failed if missing author or title", async () => {
+    await request(app)
+      .post("/api/books")
+      .send({
+        author: faker.book.author(),
+      })
+      .expect(400);
+
+    await request(app)
+      .post("/api/books")
+      .send({
+        title: faker.book.title(),
+      })
+      .expect(400);
+  });
 });
