@@ -51,7 +51,7 @@ const db = {
         if (elm.id === id) {
           updatedBook = {
             id: elm.id,
-            author: book.title || elm.author,
+            author: book.author || elm.author,
             title: book.title || elm.title,
           };
           return updatedBook;

@@ -15,3 +15,8 @@ export const readOneBookService = async (id: string) => {
 export const createBookService = async (book: AddBookSchema) => {
   return await db.book.create(book);
 };
+
+// =============================================================
+export const updateBookService = async (id: string, book: AddBookSchema) => {
+  return await db.book.update(id, book);
+};
