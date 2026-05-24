@@ -1,0 +1,49 @@
+<!-- ./views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTMX Book Store</title>
+    <script src="https://unpkg.com/htmx.org@2.0.10"></script>
+</head>
+<body>
+    <h1>📚 Nabil's Book Store Dashboard</h1>
+    <hr />
+
+    <h3>Add a New Book</h3>
+    <form hx-post="/views/books" hx-target="#book-rows" hx-swap="beforeend" hx-on::after-request="this.reset()">
+        <input type="text" name="title" placeholder="Book Title" required />
+        <input type="text" name="author" placeholder="Author Name" required />
+        <button type="submit">Add Book</button>
+    </form>
+
+    <hr />
+
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="book-rows">
+            <% books.forEach(function(book) { %>
+                <tr id="book-row-<%= book.id %>">
+                    <td><%= book.title %></td>
+                    <td><%= book.author %></td>
+                    <td>
+                        <button 
+                            hx-delete="/views/books/<%= book.id %>" 
+                            hx-target="#book-row-<%= book.id %>" 
+                            hx-swap="outerHTML"
+                        >
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

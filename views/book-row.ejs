@@ -1,0 +1,14 @@
+<!-- ./views/book-row.ejs -->
+<tr id="book-row-<%= book.id %>">
+    <td><%= book.title %></td>
+    <td><%= book.author %></td>
+    <td>
+        <button 
+            hx-delete="/views/books/<%= book.id %>" 
+            hx-target="#book-row-<%= book.id %>" 
+            hx-swap="outerHTML"
+        >
+            Delete
+        </button>
+    </td>
+</tr>
