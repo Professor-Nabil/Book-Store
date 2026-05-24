@@ -1,7 +1,7 @@
 // =============================================================
-// Create 10 books at the start of the server
+// Create 3 books at the start of the server
 // =============================================================
-import db from "../modules/book/repository.js";
+import db from "../../modules/book/repository.js";
 import { faker } from "@faker-js/faker";
 
 for (let i = 0; i < 10; i++) {

@@ -1,5 +1,4 @@
 // ./src/app.ts
-import "./lib/seed.books.js";
 import express from "express";
 import bookRoute from "./modules/book/route.js";
 
