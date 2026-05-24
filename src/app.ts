@@ -6,6 +6,8 @@ import { globalError } from "./errors/global.error.js";
 const app = express();
 app.use(express.json());
 
+app.use(express.static("public"));
+
 app.use("/api/books", bookRoute);
 
 app.use(globalError);

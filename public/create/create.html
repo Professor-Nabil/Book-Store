@@ -1,0 +1,34 @@
+<!-- ./public/create.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Create Book</title>
+    <script src="/create/create.js" defer></script>
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body x-data="apiTestBench">
+    <a href="/">⬅️ Back to Home</a>
+    <h2>➕ Add New Book Endpoint</h2>
+    <hr />
+
+    <form @submit.prevent="submitForm()">
+      <p>
+        <label
+          >Book Title:<br />
+          <input type="text" x-model="title" required />
+        </label>
+      </p>
+      <p>
+        <label
+          >Author Name:<br />
+          <input type="text" x-model="author" required />
+        </label>
+      </p>
+      <button type="submit">Submit POST Request</button>
+    </form>
+  </body>
+</html>

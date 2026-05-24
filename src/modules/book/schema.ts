@@ -11,8 +11,8 @@ export type BookSchema = z.infer<typeof bookSchema>;
 
 export const addBookSchema = z
   .object({
-    author: z.string().min(1),
-    title: z.string().min(1),
+    author: z.string().min(3),
+    title: z.string().min(3),
   })
   .strict();
 export type AddBookSchema = z.infer<typeof addBookSchema>;
