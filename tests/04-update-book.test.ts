@@ -38,4 +38,24 @@ describe("### API ### PUT '/api/books'", () => {
     expect(res.body.data.title).toBe(newBook.title);
     expect(res.body.data.title).not.toBe(oldBook.title);
   });
+
+  it("Should failed if missing author or title", async () => {
+    // -------------------------------------------------------------
+    // Missing author
+    await request(app)
+      .put(`/api/books/${oldBook.id}`)
+      .send({
+        title: faker.book.title(),
+      })
+      .expect(400);
+    // -------------------------------------------------------------
+    // Missing title
+    await request(app)
+      .put(`/api/books/${oldBook.id}`)
+      .send({
+        author: faker.book.author(),
+      })
+      .expect(400);
+  });
+
 });
