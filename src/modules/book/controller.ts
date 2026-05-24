@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import { readAllBooksService, readOneBookService } from "./service.js";
 import z from "zod";
+import { AppError } from "../../errors/app.error.js";
 
 export const readAllBooksController = async (
   _req: Request,
@@ -34,7 +35,7 @@ export const readOneBooksController = async (
     // -------------------------------------------------------------
     const result = await readOneBookService(bookId);
     // -------------------------------------------------------------
-    if (!result) throw new Error("Book not found");
+    if (!result) throw new AppError("Book not found", 404);
     // -------------------------------------------------------------
     const body = {
       message: "Success read all books",
@@ -44,6 +45,11 @@ export const readOneBooksController = async (
     res.status(200).json(body);
     // -------------------------------------------------------------
   } catch (err) {
-    next(err);
+    if (err instanceof z.ZodError) {
+      err = new AppError("Invalid id", 400, err.issues);
+      next(err);
+    } else {
+      next(err);
+    }
   }
 };
