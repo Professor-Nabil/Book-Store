@@ -1,0 +1,39 @@
+<!-- ./public/read.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>View Books</title>
+    <script src="/read/read.js" defer></script>
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body x-data="apiTestBench" x-init="getAllBooks()">
+    <a href="/">⬅️ Back to Home</a>
+    <h2>🔍 Active Books List</h2>
+    <hr />
+
+    <ul>
+      <template x-for="book in books" :key="book.id">
+        <li style="margin-bottom: 10px">
+          <span
+            x-text="'Title: ' + book.title + ' | Author: ' + book.author"
+          ></span>
+          <br />
+          <small
+            x-text="'ID: ' + book.id"
+            style="color: gray; font-family: monospace"
+          ></small>
+          <br />
+          <button @click="deleteBook(book.id)">❌ Delete This Book</button>
+        </li>
+      </template>
+    </ul>
+
+    <template x-if="books.length === 0">
+      <p>No books found in the repository storage layer.</p>
+    </template>
+  </body>
+</html>

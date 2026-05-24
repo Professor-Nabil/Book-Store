@@ -1,0 +1,46 @@
+<!-- ./public/update.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Update Book</title>
+    <script src="/update/update.js" defer></script>
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body x-data="apiTestBench">
+    <a href="/">⬅️ Back to Home</a>
+    <h2>✏️ Update Book Endpoint</h2>
+    <hr />
+
+    <form @submit.prevent="sendUpdateRequest()">
+      <p>
+        <label
+          >Paste Book UUID:<br />
+          <input
+            type="text"
+            x-model="bookId"
+            placeholder="e.g. 123e4567-e89b-12d3..."
+            style="width: 300px"
+            required
+          />
+        </label>
+      </p>
+      <p>
+        <label
+          >New Title Name:<br />
+          <input type="text" x-model="title" required />
+        </label>
+      </p>
+      <p>
+        <label
+          >New Author Name:<br />
+          <input type="text" x-model="author" required />
+        </label>
+      </p>
+      <button type="submit">Submit PUT Request</button>
+    </form>
+  </body>
+</html>
