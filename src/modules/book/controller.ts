@@ -16,6 +16,7 @@ export const readAllBooksController = async (
 ) => {
   try {
     const result = await readAllBooksService();
+    console.log(result);
     res.status(200).json({
       message: "Success read all books",
       data: result,

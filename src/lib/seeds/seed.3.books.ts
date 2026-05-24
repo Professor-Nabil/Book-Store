@@ -4,7 +4,7 @@
 import db from "../../modules/book/repository.js";
 import { faker } from "@faker-js/faker";
 
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 3; i++) {
   await db.book.create({
     author: faker.book.author(),
     title: faker.book.title(),
