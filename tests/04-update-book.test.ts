@@ -58,4 +58,14 @@ describe("### API ### PUT '/api/books'", () => {
       .expect(400);
   });
 
+  it("Should failed if id not found", async () => {
+    await request(app)
+      .put(`/api/books/${uuidv4()}`)
+      .send({
+        author: faker.book.author(),
+        title: faker.book.title(),
+      })
+      .expect(404);
+  });
+
 });
