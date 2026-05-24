@@ -4,6 +4,7 @@ import type { BookSchema } from "../src/modules/book/schema.js";
 import db from "../src/modules/book/repository.js";
 import { faker } from "@faker-js/faker";
 import app from "../src/app.js";
+import { v4 as uuidv4 } from "uuid";
 
 describe("### API ### DELETE '/api/books/bookId", () => {
   let realBook: BookSchema;
@@ -25,5 +26,11 @@ describe("### API ### DELETE '/api/books/bookId", () => {
     const res = await request(app).delete(`/api/books/${uuidv4()}`);
 
     expect(res.status).toBe(404);
+  });
+
+  it("Should failed if id not valid uuid", async () => {
+    const res = await request(app).delete(`/api/books/${"invalid uuid"}`);
+
+    expect(res.status).toBe(400);
   });
 });
