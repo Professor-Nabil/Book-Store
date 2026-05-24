@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Book Store API Live Tester</title>
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body
+    x-data="{ 
+    books: [], 
+    newTitle: '', 
+    newAuthor: '',
+    
+    // FETCH ALL BOOKS (GET)
+    async fetchBooks() {
+        const res = await fetch('/api/books');
+        const json = await res.json();
+        this.books = json.data;
+    },
+
+    // CREATE ONE BOOK (POST)
+    async createBook() {
+        const res = await fetch('/api/books', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: this.newTitle, author: this.newAuthor })
+        });
+        if (res.ok) {
+            this.newTitle = '';
+            this.newAuthor = '';
+            this.fetchBooks(); // Refresh the list automatically
+        } else {
+            alert('Failed to create book!');
+        }
+    },
+
+    // DELETE ONE BOOK (DELETE)
+    async deleteBook(id) {
+        const res = await fetch(`/api/books/${id}`, { method: 'DELETE' });
+        if (res.status === 204) {
+            this.fetchBooks(); // Refresh the list automatically
+        } else {
+            alert('Failed to delete book!');
+        }
+    }
+}"
+    x-init="fetchBooks()"
+  >
+    <h1>📚 Book Store API Live Test Bench</h1>
+    <hr />
+
+    <h3>Test Endpoint: POST /api/books</h3>
+    <form @submit.prevent="createBook()">
+      <input type="text" x-model="newTitle" placeholder="Book Title" required />
+      <input
+        type="text"
+        x-model="newAuthor"
+        placeholder="Author Name"
+        required
+      />
+      <button type="submit">Create Book</button>
+    </form>
+
+    <hr />
+
+    <h3>Test Endpoint: GET /api/books</h3>
+    <button @click="fetchBooks()">Force Manual Refresh</button>
+
+    <table border="1" cellpadding="10" style="margin-top: 15px">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <template x-for="book in books" :key="book.id">
+          <tr>
+            <td x-text="book.id"></td>
+            <td x-text="book.title" style="font-weight: bold"></td>
+            <td x-text="book.author"></td>
+            <td>
+              <button @click="deleteBook(book.id)">Delete</button>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </body>
+</html>
