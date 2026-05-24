@@ -4,6 +4,7 @@ import { faker } from "@faker-js/faker";
 import type { BookSchema } from "../src/modules/book/schema.js";
 import request from "supertest";
 import app from "../src/app.js";
+import { v4 as uuidv4 } from "uuid";
 
 describe("### API ### GET '/api/books/:bookId'", () => {
   let realBook: BookSchema;
@@ -23,5 +24,15 @@ describe("### API ### GET '/api/books/:bookId'", () => {
     expect(res.body).toHaveProperty("data");
     expect(res.body.data).toHaveProperty("id");
     expect(res.body.data.id).toBe(realBook.id);
+  });
+
+  it("Should failed if invalid id", async () => {
+    const res = await request(app).get(`/api/books/${Math.random()}`);
+    expect(res.status).toBe(400);
+  });
+
+  it("Should failed if id not found", async () => {
+    const res = await request(app).get(`/api/books/${uuidv4()}`);
+    expect(res.status).toBe(404);
   });
 });
