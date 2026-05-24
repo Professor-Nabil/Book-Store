@@ -4,6 +4,7 @@ import db from "../src/modules/book/repository.js";
 import { faker } from "@faker-js/faker";
 import type { BookSchema } from "../src/modules/book/schema.js";
 import app from "../src/app.js";
+import { v4 as uuidv4 } from "uuid";
 
 describe("### API ### PUT '/api/books'", () => {
   let oldBook: BookSchema;
@@ -13,6 +14,7 @@ describe("### API ### PUT '/api/books'", () => {
       title: faker.book.title(),
     });
   });
+
   it("Should success update book", async () => {
     const newBook = {
       author: faker.book.author(),
@@ -68,4 +70,13 @@ describe("### API ### PUT '/api/books'", () => {
       .expect(404);
   });
 
+  it("Should failed if id is not valid uuid", async () => {
+    await request(app)
+      .put(`/api/books/${"sss"}`)
+      .send({
+        author: faker.book.author(),
+        title: faker.book.title(),
+      })
+      .expect(400);
+  });
 });
