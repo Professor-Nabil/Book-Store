@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createBookController,
+  deleteBookController,
   readAllBooksController,
   readOneBooksController,
   updateBookController,
@@ -15,5 +16,7 @@ route.get("/:bookId", readOneBooksController);
 route.post("/", createBookController);
 
 route.put("/:bookId", updateBookController);
+
+route.delete("/:bookId", deleteBookController);
 
 export default route;

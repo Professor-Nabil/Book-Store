@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import {
   createBookService,
+  deleteBookService,
   readAllBooksService,
   readOneBookService,
   updateBookService,
@@ -109,7 +110,7 @@ export const updateBookController = async (
     }
     // -------------------------------------------------------------
     const body = {
-      message: "Success update book",
+      message: "Success update one book",
       data: result,
     };
     // -------------------------------------------------------------
@@ -118,6 +119,35 @@ export const updateBookController = async (
   } catch (err) {
     if (err instanceof z.ZodError) {
       err = new AppError("Invalid book info of id", 400, err.issues);
+      next(err);
+    } else {
+      next(err);
+    }
+  }
+};
+
+// =============================================================
+export const deleteBookController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    // -------------------------------------------------------------
+    const bookId = z.uuid().parse(req.params.bookId);
+    // -------------------------------------------------------------
+    const result = await deleteBookService(bookId);
+    // -------------------------------------------------------------
+    if (!result) {
+      throw new AppError("Id not found", 404);
+    }
+    // -------------------------------------------------------------
+    // -------------------------------------------------------------
+    res.sendStatus(204);
+    // -------------------------------------------------------------
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      err = new AppError("Invalid id", 400, err.issues);
       next(err);
     } else {
       next(err);
