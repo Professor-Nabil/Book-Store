@@ -1,8 +1,14 @@
 import type { Request, Response, NextFunction } from "express";
-import { readAllBooksService, readOneBookService } from "./service.js";
+import {
+  createBookService,
+  readAllBooksService,
+  readOneBookService,
+} from "./service.js";
 import z from "zod";
 import { AppError } from "../../errors/app.error.js";
+import { addBookSchema } from "./schema.js";
 
+// =============================================================
 export const readAllBooksController = async (
   _req: Request,
   res: Response,
@@ -24,6 +30,7 @@ export const readAllBooksController = async (
   }
 };
 
+// =============================================================
 export const readOneBooksController = async (
   req: Request,
   res: Response,
@@ -38,7 +45,7 @@ export const readOneBooksController = async (
     if (!result) throw new AppError("Book not found", 404);
     // -------------------------------------------------------------
     const body = {
-      message: "Success read all books",
+      message: "Success read one books",
       data: result,
     };
     // -------------------------------------------------------------
@@ -47,6 +54,35 @@ export const readOneBooksController = async (
   } catch (err) {
     if (err instanceof z.ZodError) {
       err = new AppError("Invalid id", 400, err.issues);
+      next(err);
+    } else {
+      next(err);
+    }
+  }
+};
+
+// =============================================================
+export const createBookController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    // -------------------------------------------------------------
+    const book = addBookSchema.parse(req.body);
+    // -------------------------------------------------------------
+    const result = await createBookService(book);
+    // -------------------------------------------------------------
+    const body = {
+      message: "Success create new books",
+      data: result,
+    };
+    // -------------------------------------------------------------
+    res.status(201).json(body);
+    // -------------------------------------------------------------
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      err = new AppError("Invalid book info", 400, err.issues);
       next(err);
     } else {
       next(err);
