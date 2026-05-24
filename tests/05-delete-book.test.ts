@@ -20,4 +20,10 @@ describe("### API ### DELETE '/api/books/bookId", () => {
     expect(res.status).toBe(204);
     expect(res.body).toStrictEqual({});
   });
+
+  it("Should failed if id not found", async () => {
+    const res = await request(app).delete(`/api/books/${uuidv4()}`);
+
+    expect(res.status).toBe(404);
+  });
 });
